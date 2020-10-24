@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+    <link rel="stylesheet" href={% static "css/style.css" %}>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+
+<body>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    What's the weather like?
+                </h1>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        
+        <div class="container">
+            <img src={% static "image/logo.png" %} style="text-align: center;"><br><br><br><br>
+            <div class="columns">
+                <div class="column is-offset-4 is-4">
+                    <form method="POST">
+                        {%csrf_token%}
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                {{form.name}}
+                            </div>
+                            <div class="control">
+                                <button type="submit" class="button is-info">
+                                    Add City
+                                </button>
+                            </div>
+                        </div>
+                        {%if messages%}
+                            {%for message in messages%}
+                                <div class="notification is-{{message.tags}}">{{message}}</div>
+                            {%endfor%}
+                        {%endif%}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-offset-4 is-4">
+                    {%for city_weather in weather_data%}
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-left">
+                                <figure class="image is-50x50">
+                                    <img src="https://openweathermap.org/img/w/{{city_weather.icon}}.png" alt="Image">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <span class="title">{{city_weather.city}}</span>
+                                        <br>
+                                        <span class="subtitle">{{city_weather.temperature}}° C</span>
+                                        <br> {{city_weather.description}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="media-right">
+                                <a href="{% url 'delete_city' city_weather.city %}">
+                                    <button class="delete"></button>
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                    {%endfor%}
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        <ul>
+            <!--<a href="#"><li id="facebook"><i class="fab fa-facebook-f"></i></i></li></a>-->
+            <a href="https://twitter.com/mirnaeim"><li id="twitter"><i class="fab fa-twitter"></i></li></a>
+            <a href="https://www.reddit.com/user/mirnaeim"><li id="reddit"><i class="fab fa-reddit"></i></li></a>
+            <a href="https://github.com/mirnaeim"><li id="github"><i class="fab fa-github"></i></li></a>
+            <a href="https://dev.to/mirnaeim"><li id="dev"><i class="fab fa-dev"></i></li></a>
+            <a href="https://t.me/mirnaeim"><li id="telegram"><i class="fab fa-telegram"></i></li></a>
+            <a href="https://www.instagram.com/mirnaeim"><li id="instagram"><i class="fab fa-instagram"></i></li></a>
+            <a href="https://www.linkedin.com/in/mirnaim-hoseyni-295b8a13a/"><li id="linkdin"><i class="fab fa-linkedin-in"></i></li></a>
+            <!--<a href="#"><li id="youtube"><i class="fab fa-youtube"></i></li></a>-->
+        </ul>
+    </footer>
+</body>
+
+</html>
